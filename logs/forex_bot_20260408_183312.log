@@ -1,0 +1,22 @@
+2026-04-08 18:33:12 | INFO     | =================================================================
+2026-04-08 18:33:12 | INFO     |   FOREX AI TRADING BOT v3.0
+2026-04-08 18:33:12 | INFO     |   Pairs     : ALL (29 instruments) | H1
+2026-04-08 18:33:12 | INFO     |               EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, NZDUSD, EURGBP, EURJPY, EURCHF, EURAUD, EURCAD, EURNZD, GBPJPY, GBPCHF, GBPAUD, GBPCAD, GBPNZD, AUDJPY, CADJPY, CHFJPY, NZDJPY, AUDCAD, AUDCHF, AUDNZD, CADCHF, NZDCAD, NZDCHF, XAUUSD
+2026-04-08 18:33:12 | INFO     |   Model     : LSTM
+2026-04-08 18:33:12 | INFO     |   Mode      : LIVE
+2026-04-08 18:33:12 | INFO     |   Accounts  : 1 active | Multi-acc: OFF
+2026-04-08 18:33:12 | INFO     |   Social    : ON | Telegram: configured
+2026-04-08 18:33:12 | INFO     |   News      : ON
+2026-04-08 18:33:12 | INFO     |   Fundament.: ON
+2026-04-08 18:33:12 | INFO     |   Knowledge : ON
+2026-04-08 18:33:12 | INFO     | =================================================================
+2026-04-08 18:33:12 | INFO     | [FeatureEngineer] v2.0 — using TechnicalEngine (57 features)
+2026-04-08 18:33:12 | INFO     | [Bot] News engine loaded.
+2026-04-08 18:33:12 | INFO     | [Bot] Fundamental engine loaded.
+2026-04-08 18:33:12 | INFO     | [Knowledge] Loaded 20 rules from models/knowledge_base.json
+2026-04-08 18:33:12 | INFO     | [Bot] Knowledge base: 20 rules loaded.
+2026-04-08 18:33:12 | INFO     | [Social] Social engine ready.
+2026-04-08 18:33:12 | INFO     | [Bot] Social engine loaded.
+2026-04-08 18:33:12 | INFO     | ─── MODE: LIVE ────────────────────────────────────────
+2026-04-08 18:34:17 | ERROR    | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 18:34:17 | CRITICAL | MT5 connection failed. Exiting.

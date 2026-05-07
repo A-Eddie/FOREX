@@ -1,0 +1,42 @@
+2026-04-08 18:49:22 | INFO     | =================================================================
+2026-04-08 18:49:22 | INFO     |   FOREX AI TRADING BOT v3.0
+2026-04-08 18:49:22 | INFO     |   Pairs     : ALL (29 instruments) | H1
+2026-04-08 18:49:22 | INFO     |               EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, NZDUSD, EURGBP, EURJPY, EURCHF, EURAUD, EURCAD, EURNZD, GBPJPY, GBPCHF, GBPAUD, GBPCAD, GBPNZD, AUDJPY, CADJPY, CHFJPY, NZDJPY, AUDCAD, AUDCHF, AUDNZD, CADCHF, NZDCAD, NZDCHF, XAUUSD
+2026-04-08 18:49:22 | INFO     |   Model     : LSTM
+2026-04-08 18:49:22 | INFO     |   Mode      : LIVE
+2026-04-08 18:49:22 | INFO     |   Accounts  : 1 active | Multi-acc: OFF
+2026-04-08 18:49:22 | INFO     |   Social    : ON | Telegram: configured
+2026-04-08 18:49:22 | INFO     |   News      : ON
+2026-04-08 18:49:22 | INFO     |   Fundament.: ON
+2026-04-08 18:49:22 | INFO     |   Knowledge : ON
+2026-04-08 18:49:22 | INFO     | =================================================================
+2026-04-08 18:49:22 | INFO     | [FeatureEngineer] v2.0 — using TechnicalEngine (57 features)
+2026-04-08 18:49:22 | INFO     | [Bot] News engine loaded.
+2026-04-08 18:49:22 | INFO     | [Bot] Fundamental engine loaded.
+2026-04-08 18:49:22 | INFO     | [Knowledge] Loaded 20 rules from models/knowledge_base.json
+2026-04-08 18:49:22 | INFO     | [Bot] Knowledge base: 20 rules loaded.
+2026-04-08 18:49:22 | INFO     | [Social] Social engine ready.
+2026-04-08 18:49:22 | INFO     | [Bot] Social engine loaded.
+2026-04-08 18:49:22 | INFO     | ─── MODE: LIVE ────────────────────────────────────────
+2026-04-08 18:49:22 | INFO     | MT5 connect attempt 1/5 …
+2026-04-08 18:50:27 | WARNING  | mt5.initialize() failed [1/5]: (-10005, 'IPC timeout')
+2026-04-08 18:50:27 | INFO     | Retrying in 10s … (make sure MT5 is open and AutoTrading is enabled)
+2026-04-08 18:50:37 | INFO     | MT5 connect attempt 2/5 …
+2026-04-08 18:51:43 | WARNING  | mt5.initialize() failed [2/5]: (-10005, 'IPC timeout')
+2026-04-08 18:51:43 | INFO     | Retrying in 20s … (make sure MT5 is open and AutoTrading is enabled)
+2026-04-08 18:52:03 | INFO     | MT5 connect attempt 3/5 …
+2026-04-08 18:53:08 | WARNING  | mt5.initialize() failed [3/5]: (-10005, 'IPC timeout')
+2026-04-08 18:53:08 | INFO     | Retrying in 30s … (make sure MT5 is open and AutoTrading is enabled)
+2026-04-08 18:53:38 | INFO     | MT5 connect attempt 4/5 …
+2026-04-08 18:54:44 | WARNING  | mt5.initialize() failed [4/5]: (-10005, 'IPC timeout')
+2026-04-08 18:54:44 | INFO     | Retrying in 40s … (make sure MT5 is open and AutoTrading is enabled)
+2026-04-08 18:55:24 | INFO     | MT5 connect attempt 5/5 …
+2026-04-08 18:56:29 | WARNING  | mt5.initialize() failed [5/5]: (-10005, 'IPC timeout')
+2026-04-08 18:56:29 | CRITICAL | MT5 connection failed after 5 attempts.
+  Fix checklist:
+  1. Open MetaTrader 5 terminal and log in
+  2. Click the 'AutoTrading' button in the MT5 toolbar (must be GREEN)
+  3. Tools → Options → Expert Advisors → tick 'Allow automated trading'
+  4. Make sure the toolbar shows a green connection dot (bottom right)
+  5. Re-run the bot
+2026-04-08 18:56:29 | CRITICAL | MT5 connection failed. Exiting.

@@ -1,0 +1,28 @@
+MetaTrader5>=5.0.5488
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+tensorflow>=2.16
+ta>=0.10
+matplotlib>=3.6
+seaborn>=0.12
+joblib>=1.2
+pytz>=2023.3
+# Intelligence Layer (v2.0)
+requests>=2.28
+feedparser>=6.0
+beautifulsoup4>=4.11
+lxml>=4.9
+vaderSentiment>=3.3
+PyPDF2>=3.0
+pdfplumber>=0.9
+yfinance>=0.2
+python-dotenv>=1.0
+schedule>=1.2
+# World-class upgrades (v3.0)
+# FinBERT financial NLP — replaces VADER as primary sentiment engine
+# Install: pip install transformers torch
+# Model downloads automatically on first run (~500 MB, cached locally)
+transformers>=4.40
+torch>=2.2; sys_platform != "win32"
+torch>=2.2; sys_platform == "win32"

@@ -1,0 +1,145 @@
+{
+  "rules": [
+    {
+      "id": "9122fb06",
+      "text": "Buy when RSI crosses above 30 after being in oversold territory below 30.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 1.0
+    },
+    {
+      "id": "7acc1219",
+      "text": "Sell when RSI crosses below 70 after being in overbought territory above 70.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 1.0
+    },
+    {
+      "id": "af6f1ff6",
+      "text": "Enter a long trade when MACD line crosses above the signal line and both are below zero.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.8
+    },
+    {
+      "id": "f58c1ae9",
+      "text": "Enter a short trade when MACD line crosses below the signal line and both are above zero.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.8
+    },
+    {
+      "id": "e5005bfa",
+      "text": "Buy when price crosses above the 50 EMA with increasing volume.",
+      "source": "classic_rules",
+      "category": "indicator",
+      "confidence": 1.0
+    },
+    {
+      "id": "7d68f6e0",
+      "text": "Sell when price crosses below the 50 EMA with increasing volume.",
+      "source": "classic_rules",
+      "category": "indicator",
+      "confidence": 1.0
+    },
+    {
+      "id": "d5d045eb",
+      "text": "Buy when price bounces off the lower Bollinger Band with bullish candlestick confirmation.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.8
+    },
+    {
+      "id": "2414afde",
+      "text": "Sell when price touches the upper Bollinger Band after a strong rally.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.8
+    },
+    {
+      "id": "f3399d12",
+      "text": "Buy when ADX is above 25 and the +DI line is above the -DI line.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 1.0
+    },
+    {
+      "id": "590e60bf",
+      "text": "Sell short when ADX is above 25 and the -DI line is above the +DI line.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 1.0
+    },
+    {
+      "id": "f85e0a6c",
+      "text": "When ADX is below 20 the market is ranging and trend-following strategies should be avoided.",
+      "source": "classic_rules",
+      "category": "indicator",
+      "confidence": 0.85
+    },
+    {
+      "id": "0573cff6",
+      "text": "Buy when stochastic %K crosses above %D from below 20 oversold zone.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 1.0
+    },
+    {
+      "id": "0e077cc3",
+      "text": "Sell when stochastic %K crosses below %D from above 80 overbought zone.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 1.0
+    },
+    {
+      "id": "04451168",
+      "text": "Reward to risk ratio should be at least 2:1 before entering any trade.",
+      "source": "classic_rules",
+      "category": "risk",
+      "confidence": 0.5
+    },
+    {
+      "id": "2bf334a2",
+      "text": "Set stop loss below the most recent swing low for long trades.",
+      "source": "classic_rules",
+      "category": "exit",
+      "confidence": 0.44999999999999996
+    },
+    {
+      "id": "cea13a8d",
+      "text": "Set stop loss above the most recent swing high for short trades.",
+      "source": "classic_rules",
+      "category": "exit",
+      "confidence": 0.44999999999999996
+    },
+    {
+      "id": "477d6b20",
+      "text": "Take profit at the next major resistance level for long trades.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.44999999999999996
+    },
+    {
+      "id": "0916ba6f",
+      "text": "Take profit at the next major support level for short trades.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.44999999999999996
+    },
+    {
+      "id": "947b00df",
+      "text": "Ichimoku cloud: buy when price is above the cloud and the Tenkan-sen is above the Kijun-sen.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.6
+    },
+    {
+      "id": "d2871f97",
+      "text": "Ichimoku cloud: sell when price is below the cloud and the Tenkan-sen is below the Kijun-sen.",
+      "source": "classic_rules",
+      "category": "entry",
+      "confidence": 0.6
+    }
+  ],
+  "ingested_files": {}
+}

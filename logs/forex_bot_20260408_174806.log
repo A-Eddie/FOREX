@@ -1,0 +1,51 @@
+2026-04-08 17:48:06 | INFO     | =================================================================
+2026-04-08 17:48:06 | INFO     |   FOREX AI TRADING BOT v3.0
+2026-04-08 17:48:06 | INFO     |   Pairs     : ALL (29 instruments) | H1
+2026-04-08 17:48:06 | INFO     |               EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, NZDUSD, EURGBP, EURJPY, EURCHF, EURAUD, EURCAD, EURNZD, GBPJPY, GBPCHF, GBPAUD, GBPCAD, GBPNZD, AUDJPY, CADJPY, CHFJPY, NZDJPY, AUDCAD, AUDCHF, AUDNZD, CADCHF, NZDCAD, NZDCHF, XAUUSD
+2026-04-08 17:48:06 | INFO     |   Model     : LSTM
+2026-04-08 17:48:06 | INFO     |   Mode      : LIVE
+2026-04-08 17:48:06 | INFO     |   Accounts  : 1 active | Multi-acc: OFF
+2026-04-08 17:48:06 | INFO     |   Social    : ON | Telegram: configured
+2026-04-08 17:48:06 | INFO     |   News      : ON
+2026-04-08 17:48:06 | INFO     |   Fundament.: ON
+2026-04-08 17:48:06 | INFO     |   Knowledge : ON
+2026-04-08 17:48:06 | INFO     | =================================================================
+2026-04-08 17:48:06 | INFO     | [FeatureEngineer] v2.0 — using TechnicalEngine (57 features)
+2026-04-08 17:48:06 | INFO     | [Bot] News engine loaded.
+2026-04-08 17:48:06 | INFO     | [Bot] Fundamental engine loaded.
+2026-04-08 17:48:06 | INFO     | [Knowledge] Loaded 20 rules from models/knowledge_base.json
+2026-04-08 17:48:06 | INFO     | [Bot] Knowledge base: 20 rules loaded.
+2026-04-08 17:48:06 | INFO     | [Social] Social engine ready.
+2026-04-08 17:48:06 | INFO     | [Bot] Social engine loaded.
+2026-04-08 17:48:06 | INFO     | ─── MODE: LIVE ────────────────────────────────────────
+2026-04-08 17:48:06 | INFO     | MT5 connect attempt 1/10…
+2026-04-08 17:49:11 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:49:11 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:49:26 | INFO     | MT5 connect attempt 2/10…
+2026-04-08 17:50:31 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:50:31 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:50:46 | INFO     | MT5 connect attempt 3/10…
+2026-04-08 17:51:53 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:51:53 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:52:08 | INFO     | MT5 connect attempt 4/10…
+2026-04-08 17:53:14 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:53:14 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:53:29 | INFO     | MT5 connect attempt 5/10…
+2026-04-08 17:54:34 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:54:34 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:54:49 | INFO     | MT5 connect attempt 6/10…
+2026-04-08 17:55:54 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:55:54 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:56:09 | INFO     | MT5 connect attempt 7/10…
+2026-04-08 17:57:14 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:57:14 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:57:29 | INFO     | MT5 connect attempt 8/10…
+2026-04-08 17:58:34 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:58:34 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 17:58:49 | INFO     | MT5 connect attempt 9/10…
+2026-04-08 17:59:54 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 17:59:54 | INFO     | Retrying in 15s — make sure MT5 is open and logged in.
+2026-04-08 18:00:09 | INFO     | MT5 connect attempt 10/10…
+2026-04-08 18:01:14 | WARNING  | mt5.initialize() failed: (-10005, 'IPC timeout')
+2026-04-08 18:01:14 | ERROR    | All MT5 connection attempts failed.
+2026-04-08 18:01:14 | CRITICAL | MT5 connection failed. Exiting.

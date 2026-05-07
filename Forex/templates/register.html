@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %} — Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-sm-10 col-md-6 col-lg-4">
+
+    <div class="text-center mb-4">
+      <i class="bi bi-graph-up-arrow text-success" style="font-size:2.5rem"></i>
+      <h4 class="mt-2 text-white fw-bold">Create Account</h4>
+      <p class="text-secondary small">Enter your details to get started</p>
+    </div>
+
+    <div class="card">
+      <div class="card-body p-4">
+        <form method="POST" action="{{ url_for('register') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Username</label>
+            <input type="text" name="username" class="form-control"
+                   placeholder="your_username" autofocus required minlength="3" maxlength="40">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Email</label>
+            <input type="email" name="email" class="form-control"
+                   placeholder="you@example.com" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Password</label>
+            <input type="password" name="password" class="form-control"
+                   placeholder="Min 8 characters" required minlength="8">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label text-secondary small">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control"
+                   placeholder="Repeat password" required>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 fw-semibold">
+            <i class="bi bi-person-plus me-1"></i> Create Account
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <p class="text-center text-secondary small mt-3">
+      Already have an account?
+      <a href="{{ url_for('login') }}" class="text-success">Sign in</a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}

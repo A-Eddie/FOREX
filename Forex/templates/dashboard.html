@@ -1,0 +1,388 @@
+{% extends "base.html" %}
+{% block title %} — Dashboard{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+
+  <!-- ── Left column: status + connection + account info ────────────── -->
+  <div class="col-lg-5">
+
+    <!-- Bot Status Card -->
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 text-white fw-semibold">
+          <i class="bi bi-robot me-2 text-success"></i>Bot Status
+        </h6>
+        <span id="status-badge" class="badge
+          {{ 'bg-success' if status.status == 'running' else
+             'bg-warning text-dark' if status.status in ('starting','stopping') else
+             'bg-danger' }}">
+          <span class="status-dot
+            {{ 'dot-running' if status.status == 'running' else
+               'dot-starting' if status.status in ('starting','stopping') else
+               'dot-stopped' }}"></span>
+          {{ status.status | upper }}
+        </span>
+      </div>
+
+      <div class="card-body py-3">
+        <!-- MT5 Connection indicator (separate from bot running) -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="text-secondary small">MT5 Connection:</span>
+          <span id="conn-badge" class="badge bg-secondary">
+            <i class="bi bi-circle-fill me-1" style="font-size:.5rem"></i>UNKNOWN
+          </span>
+        </div>
+
+        {% if status.started_at %}
+        <p class="text-secondary small mb-1">
+          <i class="bi bi-clock me-1"></i>
+          Started: <span id="started-at">{{ status.started_at }}</span>
+        </p>
+        {% endif %}
+        {% if status.error %}
+        <div class="alert alert-danger py-2 small mb-0 mt-2">
+          <i class="bi bi-exclamation-triangle me-1"></i>{{ status.error }}
+        </div>
+        {% endif %}
+        <div id="bot-error" class="alert alert-danger py-2 small mb-0 mt-2 d-none"></div>
+      </div>
+
+      <div class="card-footer d-flex gap-2">
+        <form method="POST" action="{{ url_for('start_bot') }}" class="flex-fill">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <button type="submit" id="btn-start"
+                  class="btn btn-success btn-sm w-100 fw-semibold
+                         {{ 'disabled' if status.status in ('running','starting') }}"
+                  {{ 'disabled' if status.status in ('running','starting') }}>
+            <i class="bi bi-play-fill me-1"></i>Start Bot
+          </button>
+        </form>
+        <form method="POST" action="{{ url_for('stop_bot') }}" class="flex-fill">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <button type="submit" id="btn-stop"
+                  class="btn btn-danger btn-sm w-100 fw-semibold
+                         {{ 'disabled' if status.status == 'stopped' }}"
+                  {{ 'disabled' if status.status == 'stopped' }}>
+            <i class="bi bi-stop-fill me-1"></i>Stop Bot
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- MT5 Account Info Card (shown when connected or running) -->
+    <div class="card" id="acct-card" style="display:none">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 text-white fw-semibold">
+          <i class="bi bi-wallet2 me-2 text-primary"></i>MT5 Account
+        </h6>
+        <span id="acct-mode-badge" class="badge bg-secondary">—</span>
+      </div>
+      <div class="card-body">
+        <!-- Name / Login / Server -->
+        <div class="mb-2">
+          <div class="fw-semibold text-white" id="acct-name" style="font-size:.95rem">—</div>
+          <div class="d-flex gap-3 text-secondary small mt-1">
+            <span><i class="bi bi-person-badge me-1"></i><span id="acct-login">—</span></span>
+            <span><i class="bi bi-server me-1"></i><span id="acct-server">—</span></span>
+            <span><i class="bi bi-speedometer me-1"></i><span id="acct-leverage">—</span></span>
+          </div>
+        </div>
+        <hr class="border-secondary my-2">
+        <!-- Balance / Equity / P&L -->
+        <div class="row g-2">
+          <div class="col-4">
+            <div class="stat-box">
+              <div class="text-secondary" style="font-size:.7rem">BALANCE</div>
+              <div class="stat-value text-white" id="acct-balance">—</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="stat-box">
+              <div class="text-secondary" style="font-size:.7rem">EQUITY</div>
+              <div class="stat-value text-white" id="acct-equity">—</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="stat-box">
+              <div class="text-secondary" style="font-size:.7rem">OPEN P&L</div>
+              <div class="stat-value" id="acct-profit">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left col -->
+
+  <!-- ── Right column: MT5 credentials form ─────────────────────────── -->
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="mb-0 text-white fw-semibold">
+          <i class="bi bi-key-fill me-2 text-warning"></i>MT5 Credentials
+        </h6>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" action="{{ url_for('save_settings') }}" id="creds-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">MT5 Account Number</label>
+            <input type="text" name="mt5_login" id="inp-login" class="form-control"
+                   placeholder="e.g. 123456"
+                   value="{{ acct.mt5_login if acct else '' }}"
+                   pattern="[0-9]+" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">
+              MT5 Password
+              {% if acct %}<span class="text-secondary">(leave blank to keep current)</span>{% endif %}
+            </label>
+            <div class="input-group">
+              <input type="password" name="mt5_password" id="inp-password" class="form-control"
+                     placeholder="{{ '••••••••  (saved)' if acct else 'Enter password' }}"
+                     {{ 'required' if not acct }}>
+              <button class="btn btn-outline-secondary" type="button" id="btn-toggle-pw"
+                      title="Show/hide password">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-secondary small">Broker Server Name</label>
+            <input type="text" name="mt5_server" id="inp-server" class="form-control"
+                   placeholder="e.g. Equiti-Demo"
+                   value="{{ acct.mt5_server if acct else '' }}"
+                   required>
+            <div class="form-text text-secondary" style="font-size:.75rem">
+              Find this in your MT5 terminal under File → Open an Account.
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="live_mode"
+                     name="live_mode" role="switch"
+                     {{ 'checked' if acct and acct.live_mode }}>
+              <label class="form-check-label text-secondary small" for="live_mode">
+                <span class="badge bg-danger me-1">LIVE</span> mode
+                — leave unchecked for Demo
+              </label>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary fw-semibold flex-fill">
+              <i class="bi bi-floppy me-1"></i>Save Credentials
+            </button>
+            {% if acct %}
+            <button type="button" id="btn-test" class="btn btn-outline-info fw-semibold"
+                    style="min-width:160px">
+              <i class="bi bi-plug me-1"></i>Test Connection
+            </button>
+            {% endif %}
+          </div>
+        </form>
+
+        <!-- Test connection result panel -->
+        <div id="test-result" class="mt-3 d-none"></div>
+      </div>
+
+      <!-- Help section -->
+      <div class="card-footer text-secondary" style="font-size:.8rem">
+        <i class="bi bi-shield-lock me-1 text-success"></i>
+        Your MT5 password is AES-encrypted and never stored in plain text.
+        &nbsp;|&nbsp;
+        <i class="bi bi-info-circle me-1"></i>
+        Click <strong>Test Connection</strong> to verify credentials before starting the bot.
+      </div>
+    </div>
+  </div><!-- /right col -->
+
+</div><!-- /row -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  const csrf = document.querySelector('input[name="csrf_token"]')?.value || '';
+
+  function fmt(val, ccy) {
+    if (val === undefined || val === null) return '—';
+    return parseFloat(val).toLocaleString('en-US',
+      {minimumFractionDigits: 2, maximumFractionDigits: 2}) + (ccy ? ' ' + ccy : '');
+  }
+
+  function setConnBadge(state) {
+    // state: 'connected' | 'disconnected' | 'unknown'
+    const badge = document.getElementById('conn-badge');
+    const map = {
+      connected:    ['bg-success',  'CONNECTED'],
+      disconnected: ['bg-danger',   'DISCONNECTED'],
+      unknown:      ['bg-secondary','UNKNOWN'],
+    };
+    const [cls, label] = map[state] || map.unknown;
+    badge.className = 'badge ' + cls;
+    badge.innerHTML = `<i class="bi bi-circle-fill me-1" style="font-size:.5rem"></i>${label}`;
+  }
+
+  function showAcctCard(acct, manual) {
+    const card = document.getElementById('acct-card');
+    if (!acct || acct.balance === undefined) { card.style.display = 'none'; return; }
+    if (manual) card.dataset.manual = '1';
+    card.style.display = '';
+    const ccy = acct.currency || '';
+    document.getElementById('acct-name').textContent     = acct.name     || '—';
+    document.getElementById('acct-login').textContent    = '#' + (acct.login || '—');
+    document.getElementById('acct-server').textContent   = acct.server   || '—';
+    document.getElementById('acct-leverage').textContent = acct.leverage || '—';
+    document.getElementById('acct-balance').textContent  = fmt(acct.balance, ccy);
+    document.getElementById('acct-equity').textContent   = fmt(acct.equity,  ccy);
+
+    const profEl = document.getElementById('acct-profit');
+    const prof   = parseFloat(acct.profit || 0);
+    profEl.textContent = (prof >= 0 ? '+' : '') + fmt(prof, ccy);
+    profEl.className   = 'stat-value ' + (prof >= 0 ? 'profit-pos' : 'profit-neg');
+
+    const modeBadge = document.getElementById('acct-mode-badge');
+    const mode = acct.mode || ((acct.server || '').toLowerCase().includes('demo') ? 'DEMO' : 'LIVE');
+    modeBadge.className = 'badge ' + (mode === 'LIVE' ? 'bg-danger' : 'bg-info text-dark');
+    modeBadge.textContent = mode;
+  }
+
+  // ── Test Connection button ───────────────────────────────────────────────
+  const btnTest = document.getElementById('btn-test');
+  if (btnTest) {
+    btnTest.addEventListener('click', () => {
+      const result = document.getElementById('test-result');
+      btnTest.disabled = true;
+      btnTest.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Testing…';
+      result.className = 'd-none';
+
+      fetch('/api/test-connection', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'csrf_token=' + encodeURIComponent(csrf),
+      })
+      .then(r => r.json())
+      .then(data => {
+        btnTest.disabled = false;
+        btnTest.innerHTML = '<i class="bi bi-plug me-1"></i>Test Connection';
+
+        if (data.ok) {
+          setConnBadge('connected');
+          showAcctCard({...data, profit: undefined}, true);   // show static snapshot
+          result.className = 'mt-3 alert alert-success py-2 small';
+          result.innerHTML =
+            `<i class="bi bi-check-circle-fill me-1"></i>` +
+            `<strong>Connected!</strong> ${data.name || ''} — ` +
+            `#${data.login} @ ${data.server} | ` +
+            `Balance: ${fmt(data.balance, data.currency)} | ${data.mode}`;
+        } else {
+          setConnBadge('disconnected');
+          result.className = 'mt-3 alert alert-danger py-2 small';
+          result.innerHTML =
+            `<i class="bi bi-x-circle-fill me-1"></i>` +
+            `<strong>Failed:</strong> ${data.error}`;
+        }
+      })
+      .catch(err => {
+        btnTest.disabled = false;
+        btnTest.innerHTML = '<i class="bi bi-plug me-1"></i>Test Connection';
+        setConnBadge('disconnected');
+        result.className = 'mt-3 alert alert-danger py-2 small';
+        result.innerHTML = '<i class="bi bi-x-circle-fill me-1"></i>Network error: ' + err;
+      });
+    });
+  }
+
+  // ── Password show/hide toggle ────────────────────────────────────────────
+  const btnPw = document.getElementById('btn-toggle-pw');
+  if (btnPw) {
+    btnPw.addEventListener('click', () => {
+      const inp = document.getElementById('inp-password');
+      const icon = btnPw.querySelector('i');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+      } else {
+        inp.type = 'password';
+        icon.className = 'bi bi-eye';
+      }
+    });
+  }
+
+  // ── Live status polling ──────────────────────────────────────────────────
+  const statusColors = {
+    running:  'bg-success',
+    stopped:  'bg-danger',
+    starting: 'bg-warning text-dark',
+    stopping: 'bg-warning text-dark',
+  };
+  const dotColors = {
+    running:  'dot-running',
+    stopped:  'dot-stopped',
+    starting: 'dot-starting',
+    stopping: 'dot-stopping',
+  };
+
+  function poll() {
+    fetch('/api/status')
+      .then(r => r.json())
+      .then(data => {
+        const s     = data.status;
+        const badge = document.getElementById('status-badge');
+        const dot   = badge.querySelector('.status-dot');
+
+        // Update bot status badge
+        badge.className = 'badge ' + (statusColors[s] || 'bg-secondary');
+        dot.className   = 'status-dot ' + (dotColors[s] || 'dot-stopped');
+        badge.childNodes[badge.childNodes.length - 1].textContent = ' ' + s.toUpperCase();
+
+        // Start/stop buttons
+        const btnStart = document.getElementById('btn-start');
+        const btnStop  = document.getElementById('btn-stop');
+        if (s === 'running' || s === 'starting') {
+          btnStart.disabled = true;  btnStart.classList.add('disabled');
+          btnStop.disabled  = false; btnStop.classList.remove('disabled');
+        } else {
+          btnStart.disabled = false; btnStart.classList.remove('disabled');
+          btnStop.disabled  = true;  btnStop.classList.add('disabled');
+        }
+
+        // Error display
+        const errDiv = document.getElementById('bot-error');
+        if (data.error) {
+          errDiv.textContent = '⚠ ' + data.error;
+          errDiv.classList.remove('d-none');
+        } else {
+          errDiv.classList.add('d-none');
+        }
+
+        // Connection badge + account card when bot is running
+        const acct = data.account || {};
+        if (s === 'running') {
+          if (acct.balance !== undefined) {
+            setConnBadge('connected');
+            showAcctCard(acct, false);
+          } else {
+            setConnBadge('unknown');
+          }
+        } else if (s === 'stopped') {
+          setConnBadge('disconnected');
+          // Don't hide the account card if it was populated by a manual test
+          if (!document.getElementById('acct-card').dataset.manual) {
+            document.getElementById('acct-card').style.display = 'none';
+          }
+        }
+      })
+      .catch(() => {});
+  }
+
+  setInterval(poll, 5000);
+  poll();
+</script>
+{% endblock %}
