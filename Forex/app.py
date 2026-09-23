@@ -12,6 +12,7 @@
 import copy
 import os
 import secrets
+from urllib.parse import urljoin, urlparse
 
 from flask import (
     Flask, abort, flash, jsonify, redirect,
@@ -72,6 +73,14 @@ def _check_csrf():
         form_tok = request.form.get("csrf_token", "")
         if not tok or not form_tok or not secrets.compare_digest(tok, form_tok):
             abort(403)
+
+
+def _is_safe_redirect_target(target: str) -> bool:
+    if not target:
+        return False
+    host_url = urlparse(request.host_url)
+    redirect_url = urlparse(urljoin(request.host_url, target))
+    return redirect_url.scheme in ("http", "https") and host_url.netloc == redirect_url.netloc
 
 
 # ── User loader ───────────────────────────────────────────────────────────────
@@ -142,7 +151,9 @@ def login():
         if user and user.check_password(password):
             login_user(user, remember=True)
             next_page = request.args.get("next")
-            return redirect(next_page or url_for("dashboard"))
+            if next_page and _is_safe_redirect_target(next_page):
+                return redirect(next_page)
+            return redirect(url_for("dashboard"))
         flash("Invalid username or password.", "danger")
 
     return render_template("login.html")
